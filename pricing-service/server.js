@@ -1,21 +1,21 @@
 import express from "express";
 import dotenv from "dotenv";
-import ruleRoute from "./route.js";
+import pricingRoute from "./route.js";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8090;
 const serviceName = process.env.name;
 
-app.use("/api/v1/rule", ruleRoute);
+app.use("/api/v1/pricing", pricingRoute);
 
-app.get("/api/v1/rule/healthcheck", async (req, res) => {
+app.get("/api/v1/pricing/healthcheck", async (req, res) => {
   try {
     res.status(200);
-    res.send("Rule Service Online!");
+    res.send("Pricing Service Online!");
   } catch (err) {
     return res.status(500).json({ status: "error", message: err.message });
   }
