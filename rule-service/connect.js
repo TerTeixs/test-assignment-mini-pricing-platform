@@ -11,7 +11,7 @@ let sql = `CREATE TABLE IF NOT EXISTS rules(
   priority INTEGER NOT NULL,
   effective_from NUMERIC NOT NULL,
   effective_to NUMERIC NOT NULL,
-  is_active TEXT NOT NULL
+  is_active INTEGER NOT NULL
 )`;
 
 db.run(sql, [], (err) => {

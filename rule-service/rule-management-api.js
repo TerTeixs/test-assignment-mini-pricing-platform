@@ -3,7 +3,7 @@ import { db } from "./connect.js";
 export class RuleAPIService {
   async listRule() {
     try {
-      const sql = "SELECT * FROM rules";
+      const sql = `SELECT * FROM rules`;
       let ruleData = [];
       return await new Promise((resolve, reject) => {
         db.all(sql, [], function (err, rows) {
@@ -13,7 +13,10 @@ export class RuleAPIService {
           rows.forEach((row) => {
             ruleData.push({ ...row });
           });
-          resolve(ruleData);
+          if (ruleData.length == 0) {
+            return reject("Rule not found");
+          }
+          return resolve(ruleData);
         });
       });
     } catch (err) {
@@ -34,7 +37,7 @@ export class RuleAPIService {
       ];
 
       requiredField?.forEach((field) => {
-        if (!req.body[field] || req.body[field] === undefined) {
+        if (!req.body[field] === null || req.body[field] === undefined) {
           errorMessages.push({
             fieldName: field,
             errorMessage: "This field is required",
@@ -49,8 +52,7 @@ export class RuleAPIService {
       const { type, priority, effective_from, effective_to, is_active } =
         req.body;
 
-      const sql =
-        "INSERT INTO rules(type, priority, effective_from, effective_to, is_active) VALUES (?, ?, ?, ?, ?)";
+      const sql = `INSERT INTO rules(type, priority, effective_from, effective_to, is_active) VALUES (?, ?, ?, ?, ?)`;
 
       return await new Promise((resolve, reject) => {
         db.run(
@@ -87,7 +89,7 @@ export class RuleAPIService {
       ];
 
       requiredField?.forEach((field) => {
-        if (!req.body[field] || req.body[field] === undefined) {
+        if (!req.body[field] === null || req.body[field] === undefined) {
           errorMessages.push({
             fieldName: field,
             errorMessage: "This field is required",
@@ -99,16 +101,40 @@ export class RuleAPIService {
         throw errorMessages;
       }
 
-      const { type, priority, effective_from, effective_to, is_active } =
+      let sql = `SELECT * FROM rules WHERE id=?`;
+
+      await new Promise((resolve, reject) => {
+        db.get(sql, [req.body.id], function (err, row) {
+          if (err) {
+            return reject(err);
+          }
+          if (!row) {
+            return reject("Rule not found");
+          }
+          resolve();
+        });
+      });
+
+      const { type, priority, effective_from, effective_to, is_active, id } =
         req.body;
 
-      const sql =
-        "INSERT INTO rules(type, priority, effective_from, effective_to, is_active) VALUES (?, ?, ?, ?, ?)";
+      console.log("req body :", req.body);
+
+      sql = `
+      UPDATE rules  
+      SET 
+        type = ?,
+        priority = ?,
+        effective_from = ?,
+        effective_to = ?,
+        is_active = ?
+      WHERE id = ?
+      `;
 
       return await new Promise((resolve, reject) => {
         db.run(
           sql,
-          [type, priority, effective_from, effective_to, is_active],
+          [type, priority, effective_from, effective_to, is_active, id],
           function (err) {
             if (err) {
               return reject(err);
@@ -145,7 +171,7 @@ export class RuleAPIService {
         throw errorMessages;
       }
 
-      let sql = "SELECT * FROM rules WHERE id=?";
+      let sql = `SELECT * FROM rules WHERE id=?`;
 
       await new Promise((resolve, reject) => {
         db.get(sql, [req.params.id], function (err, row) {
@@ -159,7 +185,7 @@ export class RuleAPIService {
         });
       });
 
-      sql = "DELETE FROM rules WHERE id=?";
+      sql = `DELETE FROM rules WHERE id=?`;
 
       return await new Promise((resolve, reject) => {
         db.run(sql, [req.params.id], function (err) {

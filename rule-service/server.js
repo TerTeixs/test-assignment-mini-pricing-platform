@@ -11,7 +11,7 @@ const port = process.env.PORT || 8080;
 
 app.use("/api/v1/rule", ruleRoute);
 
-app.get("/", async (req, res) => {
+app.get("/api/v1/rule/healthcheck", async (req, res) => {
   try {
     res.status(200);
     res.send("Rule Service Online!");
