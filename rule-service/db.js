@@ -2,7 +2,20 @@ import sqlite3 from "sqlite3";
 
 const sql3 = sqlite3.verbose();
 
-const db = new sql3.Database("./rule.db", sqlite3.OPEN_READWRITE, connected);
+const db = new sql3.Database(
+  "./rule.db",
+  sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
+  (err) => {
+    if (err) {
+      return console.error("Connection Error:", err.message);
+    }
+
+    // Now that we are connected, run the table creation
+    db.run(sql, (err) => {
+      if (err) console.error("Table Creation Error:", err.message);
+    });
+  },
+);
 
 // rules TimeWindowPromotion, RemoteAreaSurcharge, WeightTier
 let sql = `CREATE TABLE IF NOT EXISTS rules(

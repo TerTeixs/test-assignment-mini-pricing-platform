@@ -11,6 +11,9 @@ export const listRule = async (req, res) => {
       data: rule,
     });
   } catch (err) {
+    if (err?.message) {
+      return res.status(500).json({ status: "error", message: err?.message });
+    }
     return res.status(500).json({ status: "error", message: err });
   }
 };
@@ -24,6 +27,9 @@ export const createRule = async (req, res) => {
       data: rule,
     });
   } catch (err) {
+    if (err?.message) {
+      return res.status(500).json({ status: "error", message: err?.message });
+    }
     return res.status(500).json({ status: "error", message: err });
   }
 };
@@ -37,6 +43,9 @@ export const updateRule = async (req, res) => {
       data: rule,
     });
   } catch (err) {
+    if (err?.message) {
+      return res.status(500).json({ status: "error", message: err?.message });
+    }
     return res.status(500).json({ status: "error", message: err });
   }
 };
@@ -50,6 +59,9 @@ export const deleteRule = async (req, res) => {
       data: rule,
     });
   } catch (err) {
+    if (err?.message) {
+      return res.status(500).json({ status: "error", message: err?.message });
+    }
     return res.status(500).json({ status: "error", message: err });
   }
 };
