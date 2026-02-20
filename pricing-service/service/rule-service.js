@@ -30,7 +30,7 @@ export async function RULE_GET_LIST() {
   };
   try {
     const response = await axios(config);
-    return response;
+    return response.data;
   } catch (err) {
     return err;
   }

@@ -2,7 +2,11 @@ import sqlite3 from "sqlite3";
 
 const sql3 = sqlite3.verbose();
 
-const db = new sql3.Database("./pricing.db", sqlite3.OPEN_READWRITE, connected);
+const db = new sql3.Database(
+  "./pricing.db",
+  sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
+  connected,
+);
 
 // rules TimeWindowPromotion, RemoteAreaSurcharge, WeightTier
 let sql = `CREATE TABLE IF NOT EXISTS pricing(

@@ -24,6 +24,9 @@ export const quotePricing = async (req, res) => {
       data: data,
     });
   } catch (err) {
+    if (err?.message) {
+      return res.status(500).json({ status: "error", message: err?.message });
+    }
     return res.status(500).json({ status: "error", message: err });
   }
 };
