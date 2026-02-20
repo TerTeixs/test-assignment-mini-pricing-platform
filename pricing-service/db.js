@@ -9,8 +9,9 @@ const db = new sql3.Database(
 );
 
 // rules TimeWindowPromotion, RemoteAreaSurcharge, WeightTier
-let sql = `CREATE TABLE IF NOT EXISTS pricing(
-  id INTEGER PRIMARY KEY
+let sql = `CREATE TABLE IF NOT EXISTS bulks_pricing(
+  id INTEGER PRIMARY KEY,
+  result TEXT NOT NULL
 )`;
 
 db.run(sql, [], (err) => {

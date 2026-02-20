@@ -1,0 +1,50 @@
+[
+  {
+    "name": "QUOTE001",
+    "products": [
+      {
+        "product_name": "Metal Rod",
+        "price": 300,
+        "quantity": 1,
+        "weight": 10
+      },
+      {
+        "product_name": "Bolt",
+        "price": 50,
+        "quantity": 5,
+        "weight": 1
+      },
+      {
+        "product_name": "Nail",
+        "price": 10,
+        "quantity": 100,
+        "weight": 0.2
+      }
+    ],
+    "shipping_to": "TH-MHS"
+  },
+  {
+    "name": "QUOTE002",
+    "products": [
+      {
+        "product_name": "Metal Rod",
+        "price": 300,
+        "quantity": 2,
+        "weight": 10
+      },
+      {
+        "product_name": "Bolt",
+        "price": 50,
+        "quantity": 5,
+        "weight": 1
+      },
+      {
+        "product_name": "Nail",
+        "price": 10,
+        "quantity": 100,
+        "weight": 0.2
+      }
+    ],
+    "shipping_to": "TH-MHS"
+  }
+]

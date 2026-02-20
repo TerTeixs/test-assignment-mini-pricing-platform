@@ -1,9 +1,10 @@
 import express from "express";
-import { quotePricing } from "./controller.js";
+import { quoteBulk, quotePricing } from "./controller.js";
 
 const router = express.Router();
 
 // router.get("/", listRule);
 router.post("/price", quotePricing);
+router.post("/bulk", quoteBulk);
 
 export default router;

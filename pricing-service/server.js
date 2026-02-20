@@ -1,6 +1,7 @@
 import express, { response } from "express";
 import dotenv from "dotenv";
-import pricingRoute from "./route.js";
+import pricingRoute from "./api/pricing-management-api/route.js";
+import jobsRoute from "./api/jobs-mangement-api/route.js";
 import { RULE_GET_HEALTHCHECK } from "./service/rule-service.js";
 
 dotenv.config();
@@ -21,6 +22,7 @@ async function ruleGetHealthCheckService() {
 }
 
 app.use("/api/v1/quotes", pricingRoute);
+app.use("/api/v1/jobs", jobsRoute);
 
 app.get("/health", async (req, res) => {
   try {
@@ -29,15 +31,6 @@ app.get("/health", async (req, res) => {
       pricingService: true,
       ruleService: ruleService,
     });
-  } catch (err) {
-    return res.status(500).json({ status: "error", message: err.message });
-  }
-});
-
-app.get("/api/v1/pricing/healthcheck", async (req, res) => {
-  try {
-    res.status(200);
-    res.send("Pricing Service Online!");
   } catch (err) {
     return res.status(500).json({ status: "error", message: err.message });
   }
