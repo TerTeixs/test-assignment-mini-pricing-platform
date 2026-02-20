@@ -11,7 +11,7 @@ export class RuleAPIService {
             return reject(err);
           }
           rows.forEach((row) => {
-            ruleData.push({ ...row });
+            ruleData.push({ ...row, rule_data: JSON.parse(row.rule_data) });
           });
           if (ruleData.length == 0) {
             return reject("Rule not found");
@@ -34,6 +34,7 @@ export class RuleAPIService {
         "effective_from",
         "effective_to",
         "is_active",
+        "rule_data",
       ];
 
       requiredField?.forEach((field) => {
@@ -49,15 +50,31 @@ export class RuleAPIService {
         throw errorMessages;
       }
 
-      const { type, priority, effective_from, effective_to, is_active } =
-        req.body;
+      let {
+        type,
+        priority,
+        effective_from,
+        effective_to,
+        is_active,
+        rule_data, // JSON TEXT
+      } = req.body;
 
-      const sql = `INSERT INTO rules(type, priority, effective_from, effective_to, is_active) VALUES (?, ?, ?, ?, ?)`;
+      if (
+        !rule_data?.TimeWindowPromotion ||
+        !rule_data?.RemoteAreaSurcharge ||
+        rule_data?.WeightTier.length < 1
+      ) {
+        throw "Invalid rule_data";
+      }
+
+      rule_data = JSON.stringify(rule_data);
+
+      const sql = `INSERT INTO rules(type, priority, effective_from, effective_to, is_active, rule_data) VALUES (?, ?, ?, ?, ?, ?)`;
 
       return await new Promise((resolve, reject) => {
         db.run(
           sql,
-          [type, priority, effective_from, effective_to, is_active],
+          [type, priority, effective_from, effective_to, is_active, rule_data],
           function (err) {
             if (err) {
               return reject(err);
@@ -86,6 +103,7 @@ export class RuleAPIService {
         "effective_from",
         "effective_to",
         "is_active",
+        "rule_data",
       ];
 
       requiredField?.forEach((field) => {
@@ -115,10 +133,23 @@ export class RuleAPIService {
         });
       });
 
-      const { type, priority, effective_from, effective_to, is_active, id } =
-        req.body;
+      const {
+        type,
+        priority,
+        effective_from,
+        effective_to,
+        is_active,
+        rule_data, // JSON TEXT
+        id,
+      } = req.body;
 
-      console.log("req body :", req.body);
+      if (
+        !rule_data?.TimeWindowPromotion ||
+        !rule_data?.RemoteAreaSurcharge ||
+        rule_data?.WeightTier.length < 1
+      ) {
+        throw "Invalid rule_data";
+      }
 
       sql = `
       UPDATE rules  
@@ -127,14 +158,23 @@ export class RuleAPIService {
         priority = ?,
         effective_from = ?,
         effective_to = ?,
-        is_active = ?
+        is_active = ?,
+        rule_data = ?
       WHERE id = ?
       `;
 
       return await new Promise((resolve, reject) => {
         db.run(
           sql,
-          [type, priority, effective_from, effective_to, is_active, id],
+          [
+            type,
+            priority,
+            effective_from,
+            effective_to,
+            is_active,
+            JSON.stringify(rule_data),
+            id,
+          ],
           function (err) {
             if (err) {
               return reject(err);
