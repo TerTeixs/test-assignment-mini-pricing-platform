@@ -6,6 +6,8 @@ import isBetween from "dayjs/plugin/isBetween.js";
 
 dayjs.extend(isBetween);
 
+// const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export class PricingAPIService {
   async quotePricing(req) {
     try {
@@ -135,7 +137,7 @@ export class PricingAPIService {
         throw "rule service is not responding";
       }
 
-      response.data = response.data?.filter((rule) => {
+      response.data = response.data.filter((rule) => {
         const isBetweenDate = dayjs(dayjs().format("YYYY-MM-DD")).isBetween(
           rule.effective_from,
           rule.effective_to,
@@ -146,25 +148,62 @@ export class PricingAPIService {
       });
 
       response.data = response.data.sort((a, b) => a.priority - b.priority);
+
+      const jobId = await new Promise((resolve, reject) => {
+        db.run(
+          `INSERT INTO bulks_pricing (status) VALUES ("pending")`,
+          function (err) {
+            if (err) {
+              reject(err);
+            }
+            if (this) {
+              resolve(this.lastID);
+            } else {
+              reject(
+                new Error(
+                  "Failed to retrieve lastID: 'this' context is undefined.",
+                ),
+              );
+            }
+            // resolve(this.lastID);
+          },
+        );
+      });
+
+      this._processBulkInBackground(jobId, req.body, response.data).catch(
+        console.error,
+      );
+
+      return {
+        message: "Bulk pricing calculation started",
+        jobId: jobId,
+      };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async _processBulkInBackground(jobId, items, ruleList) {
+    try {
       let bulkData = [];
 
-      req.body.map((item) => {
+      // console.log(`Job ${jobId} started. Waiting 5 seconds...`);
+      // await sleep(10000);
+
+      items.map((item) => {
         let { name, products, shipping_to } = item;
         let totalPrice = 0,
           totalWeight = 0;
-
         products.map((item) => {
           totalPrice += item?.price * item?.quantity;
           totalWeight += item?.weight * item?.quantity;
         });
-
-        response.data?.map((rule) => {
+        ruleList.map((rule) => {
           switch (rule.type) {
             case "TimeWindowPromotion":
               const now = dayjs();
               const startTime = rule.rule_data.TimeWindowPromotion.start_time;
               const endTime = rule.rule_data.TimeWindowPromotion.end_time;
-
               const startDate = dayjs(
                 `${now.format("YYYY-MM-DD")} ${startTime}`,
                 "YYYY-MM-DD HH:mm",
@@ -173,7 +212,6 @@ export class PricingAPIService {
                 `${now.format("YYYY-MM-DD")} ${endTime}`,
                 "YYYY-MM-DD HH:mm",
               );
-
               const isBetweenRuleDate = now.isBetween(
                 startDate,
                 endDate,
@@ -218,11 +256,28 @@ export class PricingAPIService {
           name: name,
         };
         bulkData.push(pricingData);
-        // return pricingData;
       });
-      return bulkData;
+
+      const sql = `UPDATE bulks_pricing 
+      SET status = "completed",
+          result = ? 
+      WHERE id= ?`;
+
+      await new Promise((resolve, reject) => {
+        db.run(sql, [JSON.stringify(bulkData), jobId], function (err) {
+          if (err) {
+            return reject(console.error("DB Update Error:", err.message));
+          } else
+            return resolve(
+              console.log(`Job ${jobId} finished and saved to DB.`),
+            );
+        });
+      });
     } catch (err) {
-      throw err;
+      console.log("err", err);
+      db.run(`UPDATE bulks_pricing SET status = 'failed' WHERE id = ?`, [
+        jobId,
+      ]);
     }
   }
 }

@@ -11,7 +11,8 @@ const db = new sql3.Database(
 // rules TimeWindowPromotion, RemoteAreaSurcharge, WeightTier
 let sql = `CREATE TABLE IF NOT EXISTS bulks_pricing(
   id INTEGER PRIMARY KEY,
-  result TEXT NOT NULL
+  status TEXT DEFAULT "pending",
+  result TEXT
 )`;
 
 db.run(sql, [], (err) => {

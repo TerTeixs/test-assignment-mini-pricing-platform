@@ -46,5 +46,29 @@
       }
     ],
     "shipping_to": "TH-MHS"
+  },
+  {
+    "name": "QUOTE003",
+    "products": [
+      {
+        "product_name": "Metal Rod",
+        "price": 300,
+        "quantity": 1,
+        "weight": 10
+      }
+    ],
+    "shipping_to": "TH-MHS"
+  },
+  {
+    "name": "QUOTE004",
+    "products": [
+      {
+        "product_name": "Nail",
+        "price": 10,
+        "quantity": 10000,
+        "weight": 0.2
+      }
+    ],
+    "shipping_to": "TH-MHS"
   }
 ]
