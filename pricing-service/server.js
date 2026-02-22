@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 const port = process.env.PORT || 8090;
-const serviceName = process.env.name;
+const serviceName = process.env.NAME;
 
 async function ruleGetHealthCheckService() {
   const response = await RULE_GET_HEALTHCHECK();

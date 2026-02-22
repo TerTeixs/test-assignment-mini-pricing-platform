@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 const port = process.env.PORT || 8080;
-const serviceName = process.env.name;
+const serviceName = process.env.NAME;
 
 app.use("/api/v1/rule", ruleRoute);
 

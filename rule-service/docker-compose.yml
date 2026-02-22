@@ -1,0 +1,11 @@
+services:
+  rule-service:
+    image: rule-service:latest
+    container_name: rule-service
+    restart: unless-stopped
+    env_file: ./.env
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080

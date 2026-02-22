@@ -1,0 +1,12 @@
+services:
+  pricing-service:
+    image: pricing-service:latest
+    container_name: pricing-service
+    restart: unless-stopped
+    env_file: ./.env
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8090:8090
+      - 8080:8080
