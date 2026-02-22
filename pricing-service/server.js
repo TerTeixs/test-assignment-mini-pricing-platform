@@ -4,7 +4,7 @@ import pricingRoute from "./api/pricing-management-api/route.js";
 import jobsRoute from "./api/jobs-mangement-api/route.js";
 import { RULE_GET_HEALTHCHECK } from "./service/rule-service.js";
 
-dotenv.config();
+dotenv.config({});
 
 const app = express();
 app.use(express.json());

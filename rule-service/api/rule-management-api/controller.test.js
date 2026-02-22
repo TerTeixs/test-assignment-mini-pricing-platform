@@ -1,7 +1,7 @@
 /**
  * Unit tests for Rule Management Controller
  *
- * Tests all four main functions: listRule, createRule, updateRule, deleteRule
+ * Tests all main functions: listRule, createRule, updateRule, deleteRule
  * Each function tests:
  * - Success path (returns 200 with data)
  * - Error path (returns 500 with error message)

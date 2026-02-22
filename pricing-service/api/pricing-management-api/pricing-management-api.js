@@ -32,7 +32,6 @@ export class PricingAPIService {
       }
 
       const response = await RULE_GET_LIST();
-      console.log("response :", response);
       if (response?.data === undefined) {
         throw "rule service is not responding";
       }

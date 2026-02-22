@@ -9,7 +9,7 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 8090:8090
-    command: sh ./entrypoint.sh
+    # command: sh ./entrypoint.sh
     networks:
       - pricing-service-network
 networks:
