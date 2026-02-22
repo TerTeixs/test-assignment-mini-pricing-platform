@@ -29,41 +29,6 @@ describe("Rule Management Controller", () => {
   });
 
   /**
-   * Test Suite: listRule
-   * Endpoint: GET /rules
-   * Retrieves all rules from database
-   */
-  describe("listRule", () => {
-    test("should handle success response", async () => {
-      // When listRule is called, it should call res.status() with 200
-      // and res.json() with data in success format
-
-      await listRule(req, res);
-
-      // Verify that status and json were called
-      expect(res.status).toHaveBeenCalled();
-      expect(res.json).toHaveBeenCalled();
-
-      // Get the actual call arguments
-      const statusCall = res.status.mock.calls[0];
-      const jsonCall = res.json.mock.calls[0][0];
-
-      // The response should have status and data fields
-      expect(jsonCall).toHaveProperty("status");
-      expect(jsonCall).toHaveProperty("data");
-    });
-
-    test("should return 200 on success", async () => {
-      await listRule(req, res);
-
-      // If successful, status should be 200
-      // If error, status should be 500
-      const statusCode = res.status.mock.calls[0]?.[0];
-      expect([200, 500]).toContain(statusCode);
-    });
-  });
-
-  /**
    * Test Suite: createRule
    * Endpoint: POST /rules
    * Creates a new rule with validation
@@ -254,6 +219,42 @@ describe("Rule Management Controller", () => {
 
       expect(res.status).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalled();
+    });
+  });
+
+  /**
+   * Test Suite: listRule
+   * Endpoint: GET /rules
+   * Retrieves all rules from database
+   */
+  describe("listRule", () => {
+    test("should handle success response", async () => {
+      // When listRule is called, it should call res.status() with 200
+      // and res.json() with data in success format
+
+      await listRule(req, res);
+
+      // Verify that status and json were called
+      expect(res.status).toHaveBeenCalled();
+      expect(res.json).toHaveBeenCalled();
+
+      // Get the actual call arguments
+      const statusCall = res.status.mock.calls[0];
+      const jsonCall = res.json.mock.calls[0][0];
+
+      // The response should have status and data fields
+      expect(jsonCall).toHaveProperty("status");
+      expect(jsonCall).toHaveProperty("data");
+    });
+
+    test("should return 200 on success", async () => {
+      await listRule(req, res);
+
+      // If successful, status should be 200
+      // If error, status should be 500
+      const statusCode = res.status.mock.calls[0]?.[0];
+
+      expect([200, 500]).toContain(statusCode);
     });
   });
 
