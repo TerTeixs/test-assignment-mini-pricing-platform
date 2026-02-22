@@ -5,16 +5,7 @@ const sql3 = sqlite3.verbose();
 const db = new sql3.Database(
   "./rule.db",
   sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
-  (err) => {
-    if (err) {
-      return console.error("Connection Error:", err.message);
-    }
-
-    // Now that we are connected, run the table creation
-    db.run(sql, (err) => {
-      if (err) console.error("Table Creation Error:", err.message);
-    });
-  },
+  connected,
 );
 
 // rules TimeWindowPromotion, RemoteAreaSurcharge, WeightTier
