@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import ruleRoute from "./route.js";
+import ruleRoute from "./api/rule-management-api/route.js";
 
 dotenv.config();
 

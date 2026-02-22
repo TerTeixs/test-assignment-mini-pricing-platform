@@ -28,8 +28,8 @@ app.get("/health", async (req, res) => {
   try {
     const ruleService = await ruleGetHealthCheckService();
     res.status(200).json({
-      pricingService: true,
-      ruleService: ruleService,
+      isPricingServiceOnline: true,
+      isRuleServiceOnline: ruleService,
     });
   } catch (err) {
     return res.status(500).json({ status: "error", message: err.message });

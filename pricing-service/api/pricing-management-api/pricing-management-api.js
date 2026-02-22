@@ -187,7 +187,6 @@ export class PricingAPIService {
     try {
       let bulkData = [];
 
-      // console.log(`Job ${jobId} started. Waiting 5 seconds...`);
       // await sleep(10000);
 
       items.map((item) => {
