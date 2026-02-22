@@ -9,4 +9,10 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 8090:8090
-      - 8080:8080
+    command: sh ./entrypoint.sh
+    networks:
+      - pricing-service-network
+networks:
+  pricing-service-network:
+    name: rule-service-network
+    external: true

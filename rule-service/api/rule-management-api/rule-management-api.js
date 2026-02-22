@@ -13,9 +13,9 @@ export class RuleAPIService {
           rows.forEach((row) => {
             ruleData.push({ ...row, rule_data: JSON.parse(row.rule_data) });
           });
-          if (ruleData.length == 0) {
-            return reject("Rule not found");
-          }
+          // if (ruleData.length == 0) {
+          //   return reject("Rule not found");
+          // }
           return resolve(ruleData);
         });
       });

@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  pricing-service:
+    build:
+      context: ./pricing-service
+      dockerfile: Dockerfile
+    container_name: pricing-service
+    env_file:
+      - ./pricing-service/.env
+    ports:
+      - "8090:8090"
+    networks:
+      - app-network
+
+  rule-service:
+    build:
+      context: ./rule-service
+      dockerfile: Dockerfile
+    container_name: rule-service
+    env_file:
+      - ./rule-service/.env
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
