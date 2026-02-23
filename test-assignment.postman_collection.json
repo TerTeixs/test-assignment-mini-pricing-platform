@@ -1,0 +1,255 @@
+{
+  "info": {
+    "_postman_id": "d1576695-7128-48ba-9355-74ed68d43806",
+    "name": "test-assignment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31549122",
+    "_collection_link": "https://go.postman.co/collection/31549122-d1576695-7128-48ba-9355-74ed68d43806?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "RULE SERVICE",
+      "item": [
+        {
+          "name": "HEALTHCHECK",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rule/healthcheck",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rule",
+                "healthcheck"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "LIST RULE",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rule",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rule"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE RULE",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": 1,\r\n    \"type\": \"RemoteAreaSurcharge\", // TimeWindowPromotion / RemoteAreaSurcharge / WeightTier\r\n    \"priority\": 1,\r\n    \"effective_from\": \"2026-02-19\",\r\n    \"effective_to\": \"2026-02-20\",\r\n    \"is_active\": 1, // 0 = false, 1 = true\r\n    \"rule_data\": {\r\n        \"TimeWindowPromotion\": {\r\n            \"percentage\": 10,\r\n            \"start_time\": \"08:00\",\r\n            \"end_time\": \"20:00\"\r\n        },\r\n        \"RemoteAreaSurcharge\": {\r\n            \"destination\": \"TH-MHS\",\r\n            \"price\": 10\r\n        },\r\n        \"WeightTier\": [\r\n            {\r\n                \"min\": 0,\r\n                \"max\": 5,\r\n                \"price_per_kg\": 80\r\n            },\r\n            {\r\n                \"min\": 5,\r\n                \"max\": 20,\r\n                \"price_per_kg\": 70\r\n            }\r\n        ]\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rule",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rule"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE RULE",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"type\": \"TimeWindowPromotion\", // TimeWindowPromotion / RemoteAreaSurcharge / WeightTier\r\n    \"priority\": 3,\r\n    \"effective_from\": \"2026-02-19\",\r\n    \"effective_to\": \"2026-02-25\",\r\n    \"is_active\": 1, // 0 = false, 1 = true\r\n    \"rule_data\": {\r\n        \"TimeWindowPromotion\": {\r\n            \"percentage\": 10,\r\n            \"start_time\": \"08:00\",\r\n            \"end_time\": \"12:00\"\r\n        },\r\n        \"RemoteAreaSurcharge\": {\r\n            \"destination\": \"TH-MHS\",\r\n            \"price\": 100\r\n        },\r\n        \"WeightTier\": [\r\n            {\r\n                \"min\": 0,\r\n                \"max\": 5,\r\n                \"price_per_kg\": 5\r\n            },\r\n            {\r\n                \"min\": 5,\r\n                \"max\": 90,\r\n                \"price_per_kg\": 10\r\n            }\r\n        ]\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rule",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rule"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE RULE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"type\" :\"\",\r\n    \"priority\" :\"\",\r\n    \"effective_from\" : \"\",\r\n    \"effective_to\" : \"\",\r\n    \"is_active\":\"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rule/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rule",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "PRICING SERVICE",
+      "item": [
+        {
+          "name": "GET BULK",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8090/api/v1/jobs/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8090",
+              "path": [
+                "api",
+                "v1",
+                "jobs",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "QUOTE PRICE",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"QUOTE001\",\r\n    \"products\": [\r\n        {\r\n            \"product_name\": \"Metal Rod\",\r\n            \"price\": 300,\r\n            \"quantity\": 1,\r\n            \"weight\": 10\r\n        },\r\n        {\r\n            \"product_name\": \"Bolt\",\r\n            \"price\": 50,\r\n            \"quantity\": 5,\r\n            \"weight\": 1\r\n        },\r\n        {\r\n            \"product_name\": \"Nail\",\r\n            \"price\": 10,\r\n            \"quantity\": 100,\r\n            \"weight\": 0.2\r\n        }\r\n    ],\r\n    \"shipping_to\": \"TH-MHS\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8090/api/v1/quotes/price",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8090",
+              "path": [
+                "api",
+                "v1",
+                "quotes",
+                "price"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "QUOTE BULK",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "file",
+              "file": {
+                "src": "postman-cloud:///1f110536-c2b4-40e0-813f-9e12518937f7"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8090/api/v1/quotes/bulk",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8090",
+              "path": [
+                "api",
+                "v1",
+                "quotes",
+                "bulk"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "HEALTHCHECK",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8090/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8090",
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
