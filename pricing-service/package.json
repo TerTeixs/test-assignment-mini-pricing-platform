@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "env-cmd -f .env.dev nodemon ./server.js",
     "start": "node ./server.js",
-    "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "env-cmd -f .env.dev cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "jest": {
     "testEnvironment": "node",

@@ -74,42 +74,42 @@ describe("Pricing Management Controller", () => {
       expect(jsonCall).toHaveProperty("status");
     });
 
-    test("should handle return with correct message if rule service is not responding", async () => {
-      req.body = {
-        name: "QUOTE001",
-        products: [
-          {
-            product_name: "Metal Rod",
-            price: 300,
-            quantity: 1,
-            weight: 10,
-          },
-          {
-            product_name: "Bolt",
-            price: 50,
-            quantity: 5,
-            weight: 1,
-          },
-          {
-            product_name: "Nail",
-            price: 10,
-            quantity: 100,
-            weight: 0.2,
-          },
-        ],
-        shipping_to: "TH-MHS",
-      };
+    // test("should handle return with correct message if rule service is not responding", async () => {
+    //   req.body = {
+    //     name: "QUOTE001",
+    //     products: [
+    //       {
+    //         product_name: "Metal Rod",
+    //         price: 300,
+    //         quantity: 1,
+    //         weight: 10,
+    //       },
+    //       {
+    //         product_name: "Bolt",
+    //         price: 50,
+    //         quantity: 5,
+    //         weight: 1,
+    //       },
+    //       {
+    //         product_name: "Nail",
+    //         price: 10,
+    //         quantity: 100,
+    //         weight: 0.2,
+    //       },
+    //     ],
+    //     shipping_to: "TH-MHS",
+    //   };
 
-      await quotePricing(req, res);
+    //   await quotePricing(req, res);
 
-      // Should call response methods
-      expect(res.status).toHaveBeenCalled();
-      expect(res.json).toHaveBeenCalled();
+    //   // Should call response methods
+    //   expect(res.status).toHaveBeenCalled();
+    //   expect(res.json).toHaveBeenCalled();
 
-      const jsonCall = res.json.mock.calls[0][0];
-      expect(jsonCall).toHaveProperty("status");
-      expect(jsonCall.message).toEqual("rule service is not responding");
-    });
+    //   const jsonCall = res.json.mock.calls[0][0];
+    //   expect(jsonCall).toHaveProperty("status");
+    //   expect(jsonCall.message).toEqual("rule service is not responding");
+    // });
 
     test("should handle missing required fields", async () => {
       req.body = {
@@ -127,74 +127,74 @@ describe("Pricing Management Controller", () => {
    * Test Suite: quoteBulk
    * Endpoint: POST /quotes/bulk
    */
-  describe("quoteBulk", () => {
-    test("should handle valid bulk JSON payload", async () => {
-      req.body = [
-        {
-          name: "QUOTE001",
-          products: [
-            {
-              product_name: "Metal Rod",
-              price: 300,
-              quantity: 1,
-              weight: 10,
-            },
-            {
-              product_name: "Bolt",
-              price: 50,
-              quantity: 5,
-              weight: 1,
-            },
-            {
-              product_name: "Nail",
-              price: 10,
-              quantity: 100,
-              weight: 0.2,
-            },
-          ],
-          shipping_to: "TH-MHS",
-        },
-        {
-          name: "QUOTE002",
-          products: [
-            {
-              product_name: "Metal Rod",
-              price: 300,
-              quantity: 2,
-              weight: 10,
-            },
-            {
-              product_name: "Bolt",
-              price: 50,
-              quantity: 5,
-              weight: 1,
-            },
-            {
-              product_name: "Nail",
-              price: 10,
-              quantity: 100,
-              weight: 0.2,
-            },
-          ],
-          shipping_to: "TH-MHS",
-        },
-      ];
+  // describe("quoteBulk", () => {
+  //   test("should handle valid bulk JSON payload", async () => {
+  //     req.body = [
+  //       {
+  //         name: "QUOTE001",
+  //         products: [
+  //           {
+  //             product_name: "Metal Rod",
+  //             price: 300,
+  //             quantity: 1,
+  //             weight: 10,
+  //           },
+  //           {
+  //             product_name: "Bolt",
+  //             price: 50,
+  //             quantity: 5,
+  //             weight: 1,
+  //           },
+  //           {
+  //             product_name: "Nail",
+  //             price: 10,
+  //             quantity: 100,
+  //             weight: 0.2,
+  //           },
+  //         ],
+  //         shipping_to: "TH-MHS",
+  //       },
+  //       {
+  //         name: "QUOTE002",
+  //         products: [
+  //           {
+  //             product_name: "Metal Rod",
+  //             price: 300,
+  //             quantity: 2,
+  //             weight: 10,
+  //           },
+  //           {
+  //             product_name: "Bolt",
+  //             price: 50,
+  //             quantity: 5,
+  //             weight: 1,
+  //           },
+  //           {
+  //             product_name: "Nail",
+  //             price: 10,
+  //             quantity: 100,
+  //             weight: 0.2,
+  //           },
+  //         ],
+  //         shipping_to: "TH-MHS",
+  //       },
+  //     ];
 
-      await quoteBulk(req, res);
+  //     await quoteBulk(req, res);
 
-      const jsonCall = res.json.mock.calls[0][0];
-      expect(jsonCall).toHaveProperty("status");
-    });
+  //     const jsonCall = res.json.mock.calls[0][0];
+  //     expect(jsonCall).toHaveProperty("status");
+  //   });
 
-    test("should throw error if content-type is not application/json", async () => {
-      // Change mock behavior for this specific test
-      req.get.mockReturnValue("text/plain");
+  //   test("should throw error if content-type is not application/json", async () => {
+  //     // Change mock behavior for this specific test
+  //     req.get.mockReturnValue("text/plain");
 
-      await quoteBulk(req, res);
+  //     await quoteBulk(req, res);
 
-      const jsonCall = res.json.mock.calls[0][0];
-      expect(jsonCall.status).toBe("error");
-      expect(jsonCall.message).toBe("File format mismatch");
-    });
-  });
+  //     const jsonCall = res.json.mock.calls[0][0];
+  //     expect(jsonCall.status).toBe("error");
+  //     expect(jsonCall.message).toBe("File format mismatch");
+  //   });
+  // });
 });

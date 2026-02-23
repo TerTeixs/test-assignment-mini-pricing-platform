@@ -266,10 +266,10 @@ export class PricingAPIService {
         db.run(sql, [JSON.stringify(bulkData), jobId], function (err) {
           if (err) {
             return reject(console.error("DB Update Error:", err.message));
-          } else
-            return resolve(
-              console.log(`Job ${jobId} finished and saved to DB.`),
-            );
+          } else {
+            // console.log(`Job ${jobId} finished and saved to DB.`);
+            return resolve();
+          }
         });
       });
     } catch (err) {
